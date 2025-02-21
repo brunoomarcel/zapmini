@@ -45,6 +45,14 @@ export default function Home() {
           <h1 className="text-2xl font-semibold text-center mb-4">Gerador de Link do WhatsApp</h1>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
+            <select name="" id="">
+              <option value="">Selecione seu país</option>
+              <option value="">Brasil</option>
+              <option value="">EUA</option>
+              <option value="">Inglaterra</option>
+            </select>
+
             <div>
               <label className="block text-gray-700 font-medium mb-1">Digite o seu número</label>
               <input
