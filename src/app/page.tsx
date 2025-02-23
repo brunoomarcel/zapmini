@@ -3,19 +3,26 @@ import Button from "@/components/Button";
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CountrySelect from "@/components/CountrySelect";
 
 export default function Home() {
   const [number, setNumber] = useState("");
   const [message, setMessage] = useState("");
   const [savedNumber, setSavedNumber] = useState("");
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
+  const [optionValue, setOptionValue] = useState('');
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.replace(/\D/g, ""); // Remove caracteres não numéricos
-    if (inputValue.length <= 11) { // Limita a 11 dígitos
+    if (inputValue.length <= 15) {
       setNumber(inputValue);
     }
   };
+
+  const handleChangeCountryCode = (event:any) => {
+    setOptionValue(event.target.value)
+    console.log(event.target.value)
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +32,7 @@ export default function Home() {
     }
 
     const formattedMessage = message ? `?text=${encodeURIComponent(message)}` : "";
-    const whatsappLink = `https://wa.me/${number}${formattedMessage}`;
+    const whatsappLink = `https://wa.me/${optionValue}${number}${formattedMessage}`;
 
     setSavedNumber(whatsappLink);
     setFormSubmitted(true);
@@ -47,13 +54,19 @@ export default function Home() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
               <label className="block text-gray-700 font-medium mb-1">Digite o seu número</label>
+              {/* <CountrySelect/> */}
+              <select value={optionValue} onChange={handleChangeCountryCode}>
+                <option value="55">Brasil</option>
+                <option value="34">Alemanha</option>
+                <option value="11">Inglaterra</option>
+                <option value="345">França</option>
+              </select>
               <input
                 type="tel"
                 className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 outline-none"
                 value={number}
                 onChange={handleNumberChange}
                 required
-                maxLength={11}
                 placeholder="(DDD) XXXXX-XXXX"
               />
             </div>
