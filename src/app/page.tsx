@@ -54,6 +54,7 @@ export default function Home() {
             <div>
               <label className="block text-gray-700 font-medium mb-1">Digite o seu número</label>
               <select value={optionValue} onChange={handleChangeCountryCode}>
+                <option value="">Selecione o País</option>
                 <option value="55">Brasil</option>
                 <option value="34">Alemanha</option>
                 <option value="11">Inglaterra</option>
