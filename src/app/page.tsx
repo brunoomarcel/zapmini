@@ -3,7 +3,6 @@ import Button from "@/components/Button";
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CountrySelect from "@/components/CountrySelect";
 
 export default function Home() {
   const [number, setNumber] = useState("");
@@ -19,7 +18,7 @@ export default function Home() {
     }
   };
 
-  const handleChangeCountryCode = (event:any) => {
+  const handleChangeCountryCode = (event:React.ChangeEvent<HTMLSelectElement>) => {
     setOptionValue(event.target.value)
     console.log(event.target.value)
   }
@@ -62,7 +61,6 @@ export default function Home() {
 
             <div>
               <label className="block text-gray-700 font-medium mb-1">Digite o seu número</label>
-              {/* <CountrySelect/> */}
               <select value={optionValue} onChange={handleChangeCountryCode}>
                 <option value="55">Brasil</option>
                 <option value="34">Alemanha</option>
