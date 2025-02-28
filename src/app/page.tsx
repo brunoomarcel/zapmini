@@ -3,6 +3,7 @@ import Button from "@/components/Button";
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CountrySelect from "@/components/CountrySelect";
 
 export default function Home() {
   const [number, setNumber] = useState("");
@@ -12,7 +13,7 @@ export default function Home() {
   const [optionValue, setOptionValue] = useState('');
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+    const inputValue = e.target.value.replace(/\D/g, "");
     if (inputValue.length <= 15) {
       setNumber(inputValue);
     }
@@ -20,7 +21,6 @@ export default function Home() {
 
   const handleChangeCountryCode = (event:React.ChangeEvent<HTMLSelectElement>) => {
     setOptionValue(event.target.value)
-    console.log(event.target.value)
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -38,9 +38,7 @@ export default function Home() {
   };
 
   const copySavedNumber = (savedNumber: string) => {
-    const number = navigator.clipboard.writeText(savedNumber);
-    console.log(number);
-    console.log('clkicou')
+    return navigator.clipboard.writeText(savedNumber);
   }
 
   return (
@@ -52,34 +50,32 @@ export default function Home() {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
-              <label className="block text-gray-700 font-medium mb-1">Digite o seu número</label>
-              <select value={optionValue} onChange={handleChangeCountryCode}>
-                <option value="">Selecione o País</option>
-                <option value="55">Brasil</option>
-                <option value="34">Alemanha</option>
-                <option value="11">Inglaterra</option>
-                <option value="345">França</option>
-              </select>
-              <input
-                type="tel"
-                className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                value={number}
-                onChange={handleNumberChange}
-                required
-                placeholder="(DDD) XXXXX-XXXX"
-              />
+              <label className="block text-gray-700 font-medium mb-1">Escolha o país</label>
+              <CountrySelect value={optionValue} onChange={handleChangeCountryCode} />
             </div>
-
             <div>
-              <label className="block text-gray-700 font-medium mb-1">Mensagem Inicial (opcional)</label>
-              <input
-                type="text"
-                className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Digite uma mensagem..."
-              />
+              <label className="block text-gray-700 font-medium mb-1">Digite o seu número</label>
+                <input
+                  type="tel"
+                  className="w-full border border-gray-300 rounded-md p-2 mt-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                  value={number}
+                  onChange={handleNumberChange}
+                  required
+                  placeholder="(DDD) XXXXX-XXXX"
+                />
             </div>
+              
+              <div>
+                <label className="block text-gray-700 font-medium mb-1">Mensagem Inicial (opcional)</label>
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Digite uma mensagem..."
+                />
+              </div>
+              
 
             <Button />
           </form>
@@ -87,19 +83,20 @@ export default function Home() {
           {formSubmitted && savedNumber && (
             <div className="mt-6 p-4 bg-green-100 border border-green-400 rounded-lg text-center">
               <h2 className="text-lg font-semibold text-green-700">Seu link do WhatsApp:</h2>
-              <a 
+              <div><a 
                 href={savedNumber} 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-blue-600 hover:underline break-all"
               >
                 {savedNumber}
-              </a>
-              <button
+              </a></div>
+              <div><button
                 className="mt-4 bg-gray-400 text-white rounded-md px-4 py-2 hover:bg-gray-500"
                 // onClick={copySavedNumber(savedNumber)}
                 onClick={() => copySavedNumber(savedNumber)}
-              >Copiar</button>
+              >Copiar</button></div>             
+              
             </div>
           )}
         </div>
