@@ -13,10 +13,11 @@ export default function Home() {
   const [optionValue, setOptionValue] = useState('');
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value.replace(/\D/g, "");
-    if (inputValue.length <= 15) {
-      setNumber(inputValue);
-    }
+    let inputValue = e.target.value.replace(/\D/g, "");
+    if (inputValue.length > 11) inputValue = inputValue.slice(0, 11);
+    let formattedNumber = inputValue.replace(/^(\d{2})(\d{5})(\d{0,4})$/, "($1) $2-$3");
+
+    setNumber(formattedNumber);
   };
 
   const handleChangeCountryCode = (event:React.ChangeEvent<HTMLSelectElement>) => {
@@ -25,13 +26,15 @@ export default function Home() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const rawNumber = number.replace(/\D/g,"");
     if (number.length < 11) {
       alert("O número deve ter 11 dígitos (DDD + número).");
       return;
     }
 
     const formattedMessage = message ? `?text=${encodeURIComponent(message)}` : "";
-    const whatsappLink = `https://wa.me/${optionValue}${number}${formattedMessage}`;
+    const whatsappLink = `https://wa.me/${optionValue}${rawNumber}${formattedMessage}`;
 
     setSavedNumber(whatsappLink);
     setFormSubmitted(true);
