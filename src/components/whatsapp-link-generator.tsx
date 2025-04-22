@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Smartphone, Copy, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,12 +20,42 @@ export default function WhatsAppLinkGenerator() {
   const [isValidNumber, setIsValidNumber] = useState(false)
   const [ddd, setDDD] = useState("11")
   const [message, setMessage] = useState("")
-  const [customLink, setCustomLink] = useState("")
+  const [customLink] = useState("")
   const [showDDDList, setShowDDDList] = useState(false)
   const [searchDDD, setSearchDDD] = useState("")
   const [generatedLink, setGeneratedLink] = useState("")
   const [activeTab, setActiveTab] = useState("message")
   const [copied, setCopied] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detectar se é dispositivo móvel
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkIfMobile()
+    window.addEventListener("resize", checkIfMobile)
+
+    return () => {
+      window.removeEventListener("resize", checkIfMobile)
+    }
+  }, [])
+
+  // Fechar o dropdown de DDDs quando clicar fora dele
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement
+      if (showDDDList && !target.closest(".ddd-dropdown")) {
+        setShowDDDList(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [showDDDList])
 
   // Lista de DDDs brasileiros com seus respectivos estados
   const ddds: DDD[] = [
@@ -35,7 +65,7 @@ export default function WhatsAppLinkGenerator() {
     { ddd: "14", estado: "São Paulo", regiao: "Bauru e Região" },
     { ddd: "15", estado: "São Paulo", regiao: "Sorocaba e Região" },
     { ddd: "16", estado: "São Paulo", regiao: "Ribeirão Preto e Região" },
-    { ddd: "17", estado: "São Paulo", regiao: "São Jos�� do Rio Preto e Região" },
+    { ddd: "17", estado: "São Paulo", regiao: "São José do Rio Preto e Região" },
     { ddd: "18", estado: "São Paulo", regiao: "Presidente Prudente e Região" },
     { ddd: "19", estado: "São Paulo", regiao: "Campinas e Região" },
     { ddd: "21", estado: "Rio de Janeiro", regiao: "Capital e Região Metropolitana" },
@@ -121,6 +151,16 @@ export default function WhatsAppLinkGenerator() {
     }
 
     setGeneratedLink(link)
+
+    // Scroll para o resultado em dispositivos móveis
+    if (isMobile) {
+      setTimeout(() => {
+        const resultElement = document.getElementById("result-section")
+        if (resultElement) {
+          resultElement.scrollIntoView({ behavior: "smooth" })
+        }
+      }, 100)
+    }
   }
 
   const copyToClipboard = () => {
@@ -155,20 +195,21 @@ export default function WhatsAppLinkGenerator() {
   }
 
   return (
-    <div className="grid md:grid-cols-2 gap-8 bg-white rounded-xl overflow-hidden shadow-sm border">
-      <div className="p-6 md:p-8">
-        <h1 className="text-2xl font-bold mb-6">
+    <div className="flex flex-col lg:flex-row bg-white rounded-xl overflow-hidden shadow-sm border">
+      {/* Formulário */}
+      <div className="p-4 sm:p-6 lg:p-8 lg:w-1/2">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
           Gere o seu <span className="text-green-500">Link do WhatsApp</span>
         </h1>
 
-        <p className="text-gray-700 mb-4">Digite seu número de telefone do WhatsApp</p>
+        <p className="text-gray-700 mb-4 text-sm sm:text-base">Digite seu número de telefone do WhatsApp</p>
 
-        <div className="grid grid-cols-[120px_1fr] gap-4 mb-6">
-          <div>
+        <div className="grid grid-cols-1 sm:grid-cols-[100px_1fr] gap-3 sm:gap-4 mb-6">
+          <div className="w-full">
             <Label htmlFor="ddd" className="text-sm text-gray-600 mb-1 block">
               DDD
             </Label>
-            <div className="relative">
+            <div className="relative ddd-dropdown">
               <button
                 className="w-full flex items-center justify-between border rounded-md px-3 py-2 bg-white"
                 onClick={() => setShowDDDList(!showDDDList)}
@@ -189,7 +230,7 @@ export default function WhatsAppLinkGenerator() {
               </button>
 
               {showDDDList && (
-                <div className="absolute z-10 mt-1 w-[320px] bg-white border rounded-md shadow-lg max-h-60 overflow-auto">
+                <div className="absolute z-10 mt-1 w-full sm:w-[280px] bg-white border rounded-md shadow-lg max-h-60 overflow-auto left-0">
                   <div className="p-2 sticky top-0 bg-white border-b">
                     <Input
                       type="text"
@@ -203,12 +244,12 @@ export default function WhatsAppLinkGenerator() {
                     {filteredDDDs.map((item) => (
                       <button
                         key={item.ddd}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center"
+                        className="w-full text-left px-4 py-2 hover:bg-gray-100 flex flex-wrap items-center"
                         onClick={() => selectDDD(item)}
                       >
                         <span className="font-medium">{item.ddd}</span>
                         <span className="ml-2 text-gray-600">{item.estado}</span>
-                        <span className="ml-2 text-xs text-gray-500">({item.regiao})</span>
+                        <span className="w-full mt-1 text-xs text-gray-500">({item.regiao})</span>
                       </button>
                     ))}
                   </div>
@@ -217,7 +258,7 @@ export default function WhatsAppLinkGenerator() {
             </div>
           </div>
 
-          <div>
+          <div className="w-full">
             <Label htmlFor="phone-number" className="text-sm text-gray-600 mb-1 block">
               Número de telefone
             </Label>
@@ -249,18 +290,18 @@ export default function WhatsAppLinkGenerator() {
         <div className="mb-6">
           <div className="flex border-b mb-4">
             <button
-              className={`py-2 px-4 ${activeTab === "message" ? "border-b-2 border-green-500 text-green-500" : "text-gray-500"}`}
+              className={`py-2 px-2 sm:px-4 ${activeTab === "message" ? "border-b-2 border-green-500 text-green-500" : "text-gray-500"}`}
               onClick={() => setActiveTab("message")}
             >
-              <Smartphone className="inline-block mr-2 h-5 w-5" />
-              Mensagem
+              <Smartphone className="inline-block mr-1 sm:mr-2 h-4 sm:h-5 w-4 sm:w-5" />
+              <span className="text-sm sm:text-base">Mensagem</span>
             </button>
             <button
-              className={`py-2 px-4 ${activeTab === "link" ? "border-b-2 border-green-500 text-green-500" : "text-gray-500"}`}
+              className={`py-2 px-2 sm:px-4 ${activeTab === "link" ? "border-b-2 border-green-500 text-green-500" : "text-gray-500"}`}
               onClick={() => setActiveTab("link")}
             >
-              <Copy className="inline-block mr-2 h-5 w-5" />
-              Copiar Link
+              <Copy className="inline-block mr-1 sm:mr-2 h-4 sm:h-5 w-4 sm:w-5" />
+              <span className="text-sm sm:text-base">Copiar Link</span>
             </button>
           </div>
 
@@ -269,75 +310,64 @@ export default function WhatsAppLinkGenerator() {
               placeholder="Digite sua mensagem aqui..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full h-32"
+              className="w-full h-24 sm:h-32"
             />
           )}
-        </div>
-
-        <div className="mb-6">
-          {/* <h3 className="text-gray-700 mb-2">Link personalizado (opcional)</h3>
-          <p className="text-sm text-gray-500 mb-2">
-            Os links personalizados permitem que você use links mais personalizados como w.app/SuaEmpresa
-          </p> */}
-          {/* <div className="flex">
-            <div className="bg-gray-100 px-4 py-2 rounded-l-md border border-r-0 text-gray-500">w.app/</div>
-            <Input
-              type="text"
-              placeholder="SuaEmpresa"
-              value={customLink}
-              onChange={(e) => setCustomLink(e.target.value)}
-              className="rounded-l-none"
-            />
-          </div> */}
         </div>
 
         <Button
           onClick={generateLink}
           disabled={!isValidNumber || !phoneNumber}
-          className={`w-full py-3 rounded-md ${
+          className={`w-full py-2 sm:py-3 rounded-md ${
             !isValidNumber || !phoneNumber
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-blue-600 hover:bg-blue-700 text-white"
           }`}
         >
-          <Plus className="mr-2 h-5 w-5" />
-          Gerar Link do WhatsApp
+          <Plus className="mr-2 h-4 sm:h-5 w-4 sm:w-5" />
+          <span className="text-sm sm:text-base">Gerar Link do WhatsApp</span>
         </Button>
       </div>
 
-      <div className="bg-gray-50 p-6 md:p-8 flex flex-col items-center justify-center">
-        <div className="relative w-64 h-[500px] mx-auto">
-          <div className="absolute inset-0 bg-black rounded-[40px] overflow-hidden border-8 border-black">
-            <div className="bg-green-600 text-white p-4 flex items-center">
-              <div className="text-sm">
-                <div className="text-xs">18:22</div>
+      {/* Visualização */}
+      <div
+        id="result-section"
+        className="bg-gray-50 p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center lg:w-1/2"
+      >
+        <div className="relative w-48 sm:w-64 h-[380px] sm:h-[500px] mx-auto">
+          <div className="absolute inset-0 bg-black rounded-[30px] sm:rounded-[40px] overflow-hidden border-6 sm:border-8 border-black">
+            <div className="bg-green-600 text-white p-3 sm:p-4 flex items-center">
+              <div className="text-xs sm:text-sm">
+                <div className="text-[10px] sm:text-xs">18:22</div>
                 <div className="flex items-center mt-1">
-                  <div className="w-8 h-8 bg-white rounded-full mr-2"></div>
+                  <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full mr-2"></div>
                   <div>
-                    <div className="text-xs font-bold">+55 {ddd}</div>
-                    <div className="text-xs">Online</div>
+                    <div className="text-[10px] sm:text-xs font-bold">+55 {ddd}</div>
+                    <div className="text-[10px] sm:text-xs">Online</div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="h-[380px] bg-[#e5ddd5] p-4 overflow-y-auto">
+            <div className="h-[290px] sm:h-[380px] bg-[#e5ddd5] p-3 sm:p-4 overflow-y-auto">
               {message && (
                 <div className="bg-white p-2 rounded-lg shadow-sm inline-block max-w-[80%] ml-auto">
-                  <p className="text-sm">
+                  <p className="text-xs sm:text-sm">
                     {message} <span className="text-green-500">✓</span>
                   </p>
                 </div>
               )}
               {!message && (
                 <div className="bg-white p-2 rounded-lg shadow-sm inline-block max-w-[80%] ml-auto">
-                  <p className="text-sm">
+                  <p className="text-xs sm:text-sm">
                     Digite uma mensagem <span className="text-green-500">✓</span>
                   </p>
                 </div>
               )}
             </div>
             <div className="absolute bottom-0 left-0 right-0 bg-[#f0f0f0] p-2 flex items-center">
-              <div className="flex-1 bg-white rounded-full px-3 py-2 text-xs text-gray-400">Digite uma mensagem</div>
+              <div className="flex-1 bg-white rounded-full px-3 py-1 sm:py-2 text-[10px] sm:text-xs text-gray-400">
+                Digite uma mensagem
+              </div>
             </div>
           </div>
         </div>
@@ -345,21 +375,21 @@ export default function WhatsAppLinkGenerator() {
         <Button
           onClick={generateLink}
           disabled={!isValidNumber || !phoneNumber}
-          className={`w-full mt-6 py-3 rounded-md ${
+          className={`w-full mt-4 sm:mt-6 py-2 sm:py-3 rounded-md ${
             !isValidNumber || !phoneNumber
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-blue-600 hover:bg-blue-700 text-white"
           }`}
         >
-          <Plus className="mr-2 h-5 w-5" />
-          Gerar Link do WhatsApp
+          <Plus className="mr-2 h-4 sm:h-5 w-4 sm:w-5" />
+          <span className="text-sm sm:text-base">Gerar Link do WhatsApp</span>
         </Button>
 
         {generatedLink && (
           <div className="mt-4 w-full p-3 bg-green-100 border border-green-200 rounded-md">
-            <p className="text-sm text-green-800 break-all">{generatedLink}</p>
+            <p className="text-xs sm:text-sm text-green-800 break-all">{generatedLink}</p>
             <Button onClick={copyToClipboard} className="mt-2 w-full bg-green-600 hover:bg-green-700">
-              {copied ? "Copiado!" : "Copiar Link"}
+              <span className="text-sm sm:text-base">{copied ? "Copiado!" : "Copiar Link"}</span>
             </Button>
           </div>
         )}
