@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Menu, X, ChevronDown } from "lucide-react"
+import { useRouter } from "next/router";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -10,11 +11,11 @@ export default function Navbar() {
   const [funcionalidadesOpen, setFuncionalidadesOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
-//   const router = useRouter();
+  const router = useRouter();
 
-//   const toAboutUs = () => {
-//     router.push('/aboutUs');
-//   }
+  const toAboutUs = () => {
+    router.push('/aboutUs');
+  }
 
   // Fechar o menu móvel quando a tela for redimensionada para desktop
   useEffect(() => {
@@ -70,13 +71,13 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center justify-between flex-1 ml-10">
             <nav className="flex space-x-6">
-              
-
-              {/* <button onClick={toAboutUs}>
               <Link href="#" className="px-3 py-2 text-gray-500 hover:text-gray-700">
                 Sobre o ZapMini
               </Link>
-              </button> */}
+
+              <button onClick={toAboutUs}>
+                sdsd
+              </button>
 
               <Link href="#" className="px-3 py-2 text-gray-500 hover:text-gray-700">
                 Por que nós?
