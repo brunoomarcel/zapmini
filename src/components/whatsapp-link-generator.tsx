@@ -342,7 +342,7 @@ export default function WhatsAppLinkGenerator() {
                 <div className="flex items-center mt-1">
                   <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full mr-2"></div>
                   <div>
-                    <div className="text-[10px] sm:text-xs font-bold">+55 {ddd}</div>
+                    <div className="text-[10px] sm:text-xs font-bold">+55 {ddd} {phoneNumber}</div>
                     <div className="text-[10px] sm:text-xs">Online</div>
                   </div>
                 </div>
