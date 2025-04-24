@@ -323,6 +323,7 @@ export default function WhatsAppLinkGenerator() {
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-blue-600 hover:bg-blue-700 text-white"
           }`}
+          id="geradorLink"
         >
           <Plus className="mr-2 h-4 sm:h-5 w-4 sm:w-5" />
           <span className="text-sm sm:text-base">Gerar Link do WhatsApp</span>
