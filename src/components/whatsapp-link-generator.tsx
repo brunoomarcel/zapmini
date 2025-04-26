@@ -296,13 +296,13 @@ export default function WhatsAppLinkGenerator() {
               <Smartphone className="inline-block mr-1 sm:mr-2 h-4 sm:h-5 w-4 sm:w-5" />
               <span className="text-sm sm:text-base">Mensagem</span>
             </button>
-            <button
+            {/* <button
               className={`py-2 px-2 sm:px-4 ${activeTab === "link" ? "border-b-2 border-green-500 text-green-500" : "text-gray-500"}`}
               onClick={() => setActiveTab("link")}
             >
               <Copy className="inline-block mr-1 sm:mr-2 h-4 sm:h-5 w-4 sm:w-5" />
               <span className="text-sm sm:text-base">Copiar Link</span>
-            </button>
+            </button> */}
           </div>
 
           {activeTab === "message" && (
