@@ -2,12 +2,11 @@
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
 
   // Fechar o menu móvel quando a tela for redimensionada para desktop
@@ -23,21 +22,13 @@ export default function Header() {
       setScrolled(window.scrollY > 10)
     }
 
-    // Fechar dropdown quando clicar fora
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setOpenDropdown(null)
-      }
-    }
 
     window.addEventListener("resize", handleResize)
     window.addEventListener("scroll", handleScroll)
-    document.addEventListener("mousedown", handleClickOutside)
 
     return () => {
       window.removeEventListener("resize", handleResize)
       window.removeEventListener("scroll", handleScroll)
-      document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [])
 
