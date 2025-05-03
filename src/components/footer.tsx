@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export default function Footer() {
   return(
     <footer className="mt-12 text-center">
@@ -6,7 +8,7 @@ export default function Footer() {
         </p>
         <div>
           <div className="text-sm text-gray-500">
-            <a href="/pages/politica-de-privacidade">Politicas de Privacidade</a> | <a href="/pages/termos-de-uso">Termos de Uso</a>
+            <Link href="/pages/politica-de-privacidade">Políticas de Privacidade</Link> | <Link href="/pages/termos-de-uso">Termos de Uso</Link>
           </div>
         </div>
     </footer>
