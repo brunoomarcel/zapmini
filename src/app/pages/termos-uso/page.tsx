@@ -49,7 +49,7 @@ export default function termsOfUse() {
                     <div>
                         <h2 className="text-2xl font-semibold mb-2">Limitação de Responsabilidade</h2>
                         <p>
-                            O Zapmini é fornecido "no estado em que se encontra", sem garantias de qualquer tipo, expressas ou implícitas. 
+                            O Zapmini é fornecido no estado em que se encontra, sem garantias de qualquer tipo, expressas ou implícitas. 
                             Não garantimos que o serviço estará disponível de forma ininterrupta ou livre de erros.
                         </p>
                     </div>

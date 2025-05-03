@@ -148,7 +148,7 @@ export default function Header() {
               </Link>
 
               <Link 
-                href="#" 
+                href="/pages/contato" 
                 className="block px-3 py-4 text-base font-medium text-gray-600 border-b"
                 onClick={() => setMobileMenuOpen(false)}
               >
