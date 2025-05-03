@@ -6,7 +6,7 @@ export default function Footer() {
         </p>
         <div>
           <div className="text-sm text-gray-500">
-            <a href="/pages/politica-privacidade">Politicas de Privacidade</a> | <a href="/pages/termos-uso">Termos de Uso</a>
+            <a href="/pages/politica-de-privacidade">Politicas de Privacidade</a> | <a href="/pages/termos-de-uso">Termos de Uso</a>
           </div>
         </div>
     </footer>
