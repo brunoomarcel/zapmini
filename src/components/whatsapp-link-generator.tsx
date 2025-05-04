@@ -194,6 +194,15 @@ export default function WhatsAppLinkGenerator() {
     setIsValidNumber(digitsOnly === 8 || digitsOnly === 9)
   }
 
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    });
+    return () => clearInterval(timer);
+  })
+
   return (
     <div className="flex flex-col lg:flex-row bg-white rounded-xl overflow-hidden shadow-sm border">
       {/* Formulário */}
@@ -296,13 +305,6 @@ export default function WhatsAppLinkGenerator() {
               <Smartphone className="inline-block mr-1 sm:mr-2 h-4 sm:h-5 w-4 sm:w-5" />
               <span className="text-sm sm:text-base">Mensagem</span>
             </button>
-            {/* <button
-              className={`py-2 px-2 sm:px-4 ${activeTab === "link" ? "border-b-2 border-green-500 text-green-500" : "text-gray-500"}`}
-              onClick={() => setActiveTab("link")}
-            >
-              <Copy className="inline-block mr-1 sm:mr-2 h-4 sm:h-5 w-4 sm:w-5" />
-              <span className="text-sm sm:text-base">Copiar Link</span>
-            </button> */}
           </div>
 
           {activeTab === "message" && (
@@ -339,9 +341,11 @@ export default function WhatsAppLinkGenerator() {
           <div className="absolute inset-0 bg-black rounded-[30px] sm:rounded-[40px] overflow-hidden border-6 sm:border-8 border-black">
             <div className="bg-green-600 text-white p-3 sm:p-4 flex items-center">
               <div className="text-xs sm:text-sm">
-                <div className="text-[10px] sm:text-xs">18:22</div>
+                <div className="text-[10px] sm:text-xs">{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 <div className="flex items-center mt-1">
-                  <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full mr-2"></div>
+                  <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full mr-2">
+                    <img src="/images/avatar_default.png" alt="avatar_default" className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full mr-2"/>
+                  </div>
                   <div>
                     <div className="text-[10px] sm:text-xs font-bold">+55 {ddd} {phoneNumber}</div>
                     <div className="text-[10px] sm:text-xs">Online</div>

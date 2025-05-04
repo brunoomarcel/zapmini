@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-gray-50 p-4">
+      <main className=" bg-gray-50 p-4">
         <div className="max-w-6xl mx-auto">
           <WhatsAppLinkGenerator />
         </div>

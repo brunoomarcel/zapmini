@@ -19,6 +19,8 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <head>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
         {/* Google Tag Manager - Script do Next.js */}
         <Script id="gtm-script" strategy="afterInteractive">
           {`
