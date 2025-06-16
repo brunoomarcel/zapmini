@@ -18,7 +18,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <head>
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
         {/* Google Tag Manager - Script do Next.js */}
@@ -33,7 +32,6 @@ export default function RootLayout({
         </Script>
 
         <meta name="google-adsense-account" content="ca-pub-1967208140287135"/>
-      </head>
       <body className={inter.className}>
         {/* Google Tag Manager (noscript) */}
         <noscript>

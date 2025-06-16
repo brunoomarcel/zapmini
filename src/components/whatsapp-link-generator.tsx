@@ -28,6 +28,17 @@ export default function WhatsAppLinkGenerator() {
   const [copied, setCopied] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
+  // E substitua por:
+const handleGenerateLink = () => {
+  // Google Analytics tracking
+  if (typeof window !== 'undefined' && 'gtag' in window) {
+    const gtag = (window as { gtag: (command: string, action: string, parameters?: Record<string, unknown>) => void }).gtag;
+    gtag('event', 'click_whats');
+  }
+  
+  generateLink();
+}
+
   // Detectar se é dispositivo móvel
   useEffect(() => {
     const checkIfMobile = () => {
@@ -318,7 +329,7 @@ export default function WhatsAppLinkGenerator() {
         </div>
 
         <Button
-          onClick={generateLink}
+          onClick={handleGenerateLink}
           disabled={!isValidNumber || !phoneNumber}
           className={`w-full py-2 sm:py-3 rounded-md ${
             !isValidNumber || !phoneNumber
@@ -378,7 +389,7 @@ export default function WhatsAppLinkGenerator() {
         </div>
 
         <Button
-          onClick={generateLink}
+          onClick={handleGenerateLink}
           disabled={!isValidNumber || !phoneNumber}
           className={`w-full mt-4 sm:mt-6 py-2 sm:py-3 rounded-md ${
             !isValidNumber || !phoneNumber
