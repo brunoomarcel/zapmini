@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { Smartphone, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -27,20 +26,30 @@ export default function WhatsAppLinkGenerator() {
   const [activeTab, setActiveTab] = useState("message")
   const [copied, setCopied] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [currentTime, setCurrentTime] = useState<Date | null>(null)
+  const [isClient, setIsClient] = useState(false)
 
-  // E substitua por:
-const handleGenerateLink = () => {
-  // Google Analytics tracking
-  if (typeof window !== 'undefined' && 'gtag' in window) {
-    const gtag = (window as { gtag: (command: string, action: string, parameters?: Record<string, unknown>) => void }).gtag;
-    gtag('event', 'click_whats');
-  }
-  
-  generateLink();
-}
-
-  // Detectar se é dispositivo móvel
+  // Garantir que só executa no cliente
   useEffect(() => {
+    setIsClient(true)
+    setCurrentTime(new Date())
+  }, [])
+
+  // Timer para atualizar o relógio
+  useEffect(() => {
+    if (!isClient) return
+
+    const timer = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [isClient])
+
+  // Detectar se é dispositivo móvel - só no cliente
+  useEffect(() => {
+    if (!isClient) return
+
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768)
     }
@@ -51,10 +60,12 @@ const handleGenerateLink = () => {
     return () => {
       window.removeEventListener("resize", checkIfMobile)
     }
-  }, [])
+  }, [isClient])
 
   // Fechar o dropdown de DDDs quando clicar fora dele
   useEffect(() => {
+    if (!isClient) return
+
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement
       if (showDDDList && !target.closest(".ddd-dropdown")) {
@@ -66,7 +77,7 @@ const handleGenerateLink = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
-  }, [showDDDList])
+  }, [showDDDList, isClient])
 
   // Lista de DDDs brasileiros com seus respectivos estados
   const ddds: DDD[] = [
@@ -163,8 +174,8 @@ const handleGenerateLink = () => {
 
     setGeneratedLink(link)
 
-    // Scroll para o resultado em dispositivos móveis
-    if (isMobile) {
+    // Scroll para o resultado em dispositivos móveis - só no cliente
+    if (isClient && isMobile) {
       setTimeout(() => {
         const resultElement = document.getElementById("result-section")
         if (resultElement) {
@@ -174,10 +185,35 @@ const handleGenerateLink = () => {
     }
   }
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(generatedLink)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  const handleGenerateLink = () => {
+    // Google Analytics tracking - só no cliente
+    if (isClient && typeof window !== 'undefined' && 'gtag' in window) {
+      const gtag = (window as { gtag: (command: string, action: string, parameters?: Record<string, unknown>) => void }).gtag;
+      gtag('event', 'click_whats');
+    }
+    
+    generateLink();
+  }
+
+  const copyToClipboard = async () => {
+    if (!isClient) return
+
+    try {
+      await navigator.clipboard.writeText(generatedLink)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      // Fallback para navegadores mais antigos
+      const textArea = document.createElement('textarea')
+      textArea.value = generatedLink
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+      console.log(err)
+    }
   }
 
   const selectDDD = (selectedDDD: DDD) => {
@@ -205,14 +241,19 @@ const handleGenerateLink = () => {
     setIsValidNumber(digitsOnly === 8 || digitsOnly === 9)
   }
 
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    });
-    return () => clearInterval(timer);
-  })
+  // Renderização condicional para evitar hidration mismatch
+  if (!isClient) {
+    return (
+      <div className="flex flex-col lg:flex-row bg-white rounded-xl overflow-hidden shadow-sm border">
+        <div className="p-4 sm:p-6 lg:p-8 lg:w-1/2">
+          <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
+            Gere o seu <span className="text-green-500">Link do WhatsApp</span>
+          </h1>
+          <p className="text-gray-700 mb-4 text-sm sm:text-base">Carregando...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col lg:flex-row bg-white rounded-xl overflow-hidden shadow-sm border">
@@ -352,10 +393,12 @@ const handleGenerateLink = () => {
           <div className="absolute inset-0 bg-black rounded-[30px] sm:rounded-[40px] overflow-hidden border-6 sm:border-8 border-black">
             <div className="bg-green-600 text-white p-3 sm:p-4 flex items-center">
               <div className="text-xs sm:text-sm">
-                <div className="text-[10px] sm:text-xs">{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                <div className="text-[10px] sm:text-xs">
+                  {currentTime ? currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--'}
+                </div>
                 <div className="flex items-center mt-1">
-                  <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full mr-2">
-                    <img src="/images/avatar_default.png" alt="avatar_default" className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full mr-2"/>
+                  <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full mr-2 flex items-center justify-center">
+                    <span className="text-gray-400 text-xs">👤</span>
                   </div>
                   <div>
                     <div className="text-[10px] sm:text-xs font-bold">+55 {ddd} {phoneNumber}</div>
