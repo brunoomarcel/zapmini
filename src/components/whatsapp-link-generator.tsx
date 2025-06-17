@@ -398,7 +398,9 @@ export default function WhatsAppLinkGenerator() {
                 </div>
                 <div className="flex items-center mt-1">
                   <div className="w-6 sm:w-8 h-6 sm:h-8 bg-white rounded-full mr-2 flex items-center justify-center">
-                    <span className="text-gray-400 text-xs">👤</span>
+                    <span className="text-gray-400 text-xs">
+                      <img src="/images/avatar_default.png" alt="avatar_default" className="rounded-3xl"/>
+                    </span>
                   </div>
                   <div>
                     <div className="text-[10px] sm:text-xs font-bold">+55 {ddd} {phoneNumber}</div>
