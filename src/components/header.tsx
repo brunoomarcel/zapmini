@@ -64,11 +64,11 @@ export default function Header() {
           {/* Navigation */}
           <div ref={menuRef} className="flex items-center justify-between flex-1 ml-10">
             <nav className="hidden lg:flex space-x-6">
-              <Link href="/pages/sobre-nos" className="px-3 py-2 text-gray-500 hover:text-gray-700">
+              <Link href="/sobre-nos" className="px-3 py-2 text-gray-500 hover:text-gray-700">
                 Sobre o ZapMini
               </Link>
 
-              <Link href="/pages/contato" className="px-3 py-2 text-gray-500 hover:text-gray-700">
+              <Link href="/contato" className="px-3 py-2 text-gray-500 hover:text-gray-700">
                 Contato
               </Link>
 
@@ -140,7 +140,7 @@ export default function Header() {
           <div className="flex-1 overflow-y-auto pt-2 pb-4">
             <div className="px-2 space-y-1">
               <Link 
-                href="/pages/sobre-nos" 
+                href="/sobre-nos" 
                 className="block px-3 py-4 text-base font-medium text-gray-600 border-b"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -148,7 +148,7 @@ export default function Header() {
               </Link>
 
               <Link 
-                href="/pages/contato" 
+                href="/contato" 
                 className="block px-3 py-4 text-base font-medium text-gray-600 border-b"
                 onClick={() => setMobileMenuOpen(false)}
               >
