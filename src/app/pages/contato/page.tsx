@@ -1,5 +1,7 @@
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+export const dynamic = 'force-static';
+
 
 export default function contact() {
     return (

@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import Script from "next/script"; // <-- IMPORTA O Script do Next.js
 import { Inter } from "next/font/google";
 import "./globals.css";
+export const dynamic = 'force-static';
+
 
 const inter = Inter({ subsets: ["latin"] });
 

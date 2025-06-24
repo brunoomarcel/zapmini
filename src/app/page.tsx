@@ -1,6 +1,8 @@
 import Footer from "@/components/footer"
 import Header from "@/components/header"
 import WhatsAppLinkGenerator from "@/components/whatsapp-link-generator"
+export const dynamic = 'force-static';
+
 
 export default function Home() {
   return (
