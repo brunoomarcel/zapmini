@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Smartphone, Plus } from "lucide-react"
+import { Smartphone, Plus, Megaphone, Share2, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -256,10 +256,11 @@ export default function WhatsAppLinkGenerator() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row bg-white rounded-xl overflow-hidden shadow-sm border">
+    <div>
+      <div className="flex flex-col lg:flex-row bg-white rounded-xl overflow-hidden shadow-sm border">
       {/* Formulário */}
       <div className="p-4 sm:p-6 lg:p-8 lg:w-1/2">
-        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6" id="gerador">
           Gere o seu <span className="text-green-500">Link do WhatsApp</span>
         </h1>
 
@@ -455,6 +456,95 @@ export default function WhatsAppLinkGenerator() {
           </div>
         )}
       </div>
+    </div>
+
+    <section className="py-16 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+          Como usar o Gerador de Link?
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Campanhas de Marketing */}
+          <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+              <Megaphone className="w-6 h-6 text-green-600" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              Campanhas de Marketing
+            </h3>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Direcione seus links para públicos específicos e acompanhe o desempenho de cada campanha. Com dados claros, você ajusta a rota e aumenta suas conversões com muito mais precisão.
+            </p>
+          </div>
+
+          {/* Redes Sociais */}
+          <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+              <Share2 className="w-6 h-6 text-green-600" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">Redes Sociais</h3>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Compartilhe links personalizados nos seus perfis e posts com apenas alguns cliques. Perfeito para usar na bio do Instagram, publicações do Facebook e onde mais sua audiência estiver.
+            </p>
+          </div>
+
+          {/* Stories e Posts */}
+          <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+              <MessageSquare className="w-6 h-6 text-green-600" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">Stories e Posts</h3>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Adicione links nos stories ou nas legendas para levar seu público direto ao WhatsApp. Uma forma simples e eficaz de gerar engajamento, promover lançamentos e destacar suas ofertas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section className="bg-white py-12 sm:py-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">
+          Gerador de Link ZapMini: Facilite o contato pelo WhatsApp do seu jeito
+        </h2>
+
+        <p className="text-gray-700 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8">
+          Se você quer agilizar a conversa com seus clientes e ser encontrado rápido no WhatsApp, o <strong>ZapMini</strong> é a solução prática. Com ele, você cria links exclusivos que abrem direto no chat, sem complicação e sem perder tempo.
+        </p>
+
+        <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">
+          Vantagens de usar o ZapMini
+        </h3>
+
+        <ul className="list-disc list-inside text-gray-700 text-sm sm:text-base space-y-2 mb-8">
+          <li>Conversas instantâneas com seu público, sem precisar explicar nada</li>
+          <li>Mensagens prontas que já falam a língua do seu cliente</li>
+          <li>Fácil integração com campanhas, redes sociais e anúncios</li>
+          <li>Geração de QR Code para materiais impressos e pontos de venda</li>
+          <li>Personalização completa da mensagem, com emojis, links e mais</li>
+        </ul>
+
+        <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">
+          Como criar seu link no ZapMini
+        </h3>
+
+        <p className="text-gray-700 text-sm sm:text-base leading-relaxed mb-6">
+          É simples: informe seu número, escreva a mensagem automática que deseja enviar e clique em <strong>Gerar Link</strong>. Em segundos, você tem um link pronto para usar no Instagram, Facebook, cartão de visita, assinatura de e-mail ou onde quiser.
+        </p>
+
+        <div className="mt-6">
+          <a
+            href="#gerador"
+            className="inline-block bg-green-600 text-white text-sm sm:text-base font-medium px-5 sm:px-6 py-3 rounded-lg shadow hover:bg-green-700 transition"
+          >
+            Comece a gerar seu link agora
+          </a>
+        </div>
+      </div>
+    </section>
+
+
     </div>
   )
 }
