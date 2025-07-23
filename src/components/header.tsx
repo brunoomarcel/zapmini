@@ -64,6 +64,9 @@ export default function Header() {
           {/* Navigation */}
           <div ref={menuRef} className="flex items-center justify-between flex-1 ml-10">
             <nav className="hidden lg:flex space-x-6">
+              <Link href="/" className="px-3 py-2 text-gray-500 hover:text-gray-700">
+                Início
+              </Link>
               <Link href="/sobre-nos" className="px-3 py-2 text-gray-500 hover:text-gray-700">
                 Sobre o ZapMini
               </Link>
@@ -72,14 +75,14 @@ export default function Header() {
                 Contato
               </Link>
 
-              <Link href="#" className="px-3 py-2 text-gray-500 hover:text-gray-700">
-                Blog
+              <Link href="/como-usar" className="px-3 py-2 text-gray-500 hover:text-gray-700">
+                Como usar
               </Link>
             </nav>
 
-            <div className="hidden lg:flex items-center">
+            {/* <div className="hidden lg:flex items-center">
               <button className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">Cadastre-se</button>
-            </div>
+            </div> */}
 
             {/* Mobile menu button */}
             <div className="flex items-center lg:hidden ml-auto">
@@ -167,9 +170,9 @@ export default function Header() {
 
           <div className="p-4 border-t">
             <div className="grid grid-cols-1 gap-4">
-              <button className="w-full px-4 py-2 text-center text-white bg-blue-600 rounded-md hover:bg-blue-700">
+              {/* <button className="w-full px-4 py-2 text-center text-white bg-blue-600 rounded-md hover:bg-blue-700">
                 Cadastre-se
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
