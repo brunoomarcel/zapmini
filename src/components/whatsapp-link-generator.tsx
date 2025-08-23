@@ -2,11 +2,12 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Smartphone, Plus, Megaphone, Share2, MessageSquare } from "lucide-react"
+import { Smartphone, Plus, Megaphone, Share2, MessageSquare, QrCode } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import QRCode from "react-qr-code";
 
 interface DDD {
   ddd: string
@@ -16,6 +17,7 @@ interface DDD {
 
 export default function WhatsAppLinkGenerator() {
   const [phoneNumber, setPhoneNumber] = useState("")
+  
   const [isValidNumber, setIsValidNumber] = useState(false)
   const [ddd, setDDD] = useState("11")
   const [message, setMessage] = useState("")
@@ -28,6 +30,7 @@ export default function WhatsAppLinkGenerator() {
   const [isMobile, setIsMobile] = useState(false)
   const [currentTime, setCurrentTime] = useState<Date | null>(null)
   const [isClient, setIsClient] = useState(false)
+  const [showQRCode, setShowQRCode] = useState(false)
 
   // Garantir que só executa no cliente
   useEffect(() => {
@@ -167,8 +170,6 @@ export default function WhatsAppLinkGenerator() {
     let link = `${baseUrl}${formattedPhone}${messageParam}`
 
     if (customLink) {
-      // In a real app, you would handle custom links differently
-      // This is just a simulation
       link = `https://w.app/${customLink}`
     }
 
@@ -184,6 +185,8 @@ export default function WhatsAppLinkGenerator() {
       }, 100)
     }
   }
+
+  
 
   const handleGenerateLink = () => {
     // Google Analytics tracking - só no cliente
@@ -320,6 +323,8 @@ export default function WhatsAppLinkGenerator() {
             </div>
           </div>
 
+          
+
           <div className="w-full">
             <Label htmlFor="phone-number" className="text-sm text-gray-600 mb-1 block">
               Número de telefone
@@ -453,6 +458,18 @@ export default function WhatsAppLinkGenerator() {
             <Button onClick={copyToClipboard} className="mt-2 w-full bg-green-600 hover:bg-green-700">
               <span className="text-sm sm:text-base">{copied ? "Copiado!" : "Copiar Link"}</span>
             </Button>
+            <div className="mt-4 flex gap-2">
+              <Button onClick={() => setShowQRCode(!showQRCode)} className="w-full bg-blue-600 hover:bg-blue-700">
+                <QrCode className="mr-2 h-4 w-4" />
+                {showQRCode ? 'Esconder' : 'Gerar'} QR Code
+              </Button>
+              
+            </div>
+            {showQRCode && (
+              <div className="mt-4 p-4 bg-white rounded-lg flex justify-center">
+                <QRCode value={generatedLink} size={128} />
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -500,6 +517,23 @@ export default function WhatsAppLinkGenerator() {
             </p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section className="py-16 bg-white">
+      <div className="max-w-6xl mx-auto px-4 text-center">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">
+          Precisa de um Cartão de Visitas Digital?
+        </h2>
+        <p className="text-gray-600 text-lg mb-8">
+          Crie um <strong>vCard</strong> para que seus contatos salvem suas informações diretamente na agenda do celular com apenas um clique. É rápido, fácil e profissional.
+        </p>
+        <a
+          href="/como-usar#vcard"
+          className="inline-block bg-purple-600 text-white text-lg font-medium px-8 py-4 rounded-lg shadow-md hover:bg-purple-700 transition-transform transform hover:scale-105"
+        >
+          Saiba Mais sobre vCard
+        </a>
       </div>
     </section>
 

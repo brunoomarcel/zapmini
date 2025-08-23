@@ -78,6 +78,10 @@ export default function Header() {
               <Link href="/como-usar" className="px-3 py-2 text-gray-500 hover:text-gray-700">
                 Como usar
               </Link>
+
+               <Link href="/vcard" className="px-3 py-2 text-gray-500 hover:text-gray-700">
+                Conheça o VCard
+              </Link>
             </nav>
 
             {/* <div className="hidden lg:flex items-center">
