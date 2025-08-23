@@ -43,6 +43,7 @@ export default function VCardPage() {
   const [organization, setOrganization] = useState("")
   const [website, setWebsite] = useState("")
   const [showPreview, setShowPreview] = useState(false)
+  const [vCardGenerated, setVCardGenerated] = useState(false) // Novo estado
 
   const generateVCard = () => {
     if (!name || !phone) {
@@ -68,7 +69,9 @@ export default function VCardPage() {
     document.body.removeChild(link)
     URL.revokeObjectURL(url)
 
-    // Abre a prévia automaticamente
+    // Indica que o vCard foi gerado
+    setVCardGenerated(true)
+    // Mostra a prévia automaticamente
     setShowPreview(true)
   }
 
@@ -94,9 +97,9 @@ export default function VCardPage() {
 
             <h2 className="text-xl font-semibold">Como criar seu vCard</h2>
             <ol className="list-decimal list-inside space-y-1">
-              <li>Preencha seus dados no formulário acima.</li>
+              <li>Preencha seus dados no formulário abaixo.</li>
               <li>Clique em "Gerar e Baixar vCard" para salvar o arquivo .vcf no seu dispositivo.</li>
-              <li>Se desejar, visualize o vCard e o QR Code clicando em "Mostrar Prévia".</li>
+              <li>Depois de gerar, você poderá visualizar a prévia e o QR Code.</li>
               <li>Use o QR Code para compartilhar seu contato rapidamente com outras pessoas.</li>
             </ol>
           </div>
@@ -171,30 +174,50 @@ export default function VCardPage() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
-              <Button
-                onClick={generateVCard}
-                disabled={!name || !phone}
-                className={`w-full sm:w-auto py-2 sm:py-3 rounded-md ${
-                  !name || !phone
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-purple-600 hover:bg-purple-700 text-white"
-                }`}
-              >
-                <Download className="mr-2 h-4 sm:h-5 w-4 sm:w-5" />
-                <span className="text-sm sm:text-base">Gerar e Baixar vCard</span>
-              </Button>
+            {/* Botão gerar vCard */}
+            <Button
+              onClick={generateVCard}
+              disabled={!name || !phone}
+              className={`w-full py-2 sm:py-3 rounded-md ${
+                !name || !phone
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-purple-600 hover:bg-purple-700 text-white"
+              }`}
+            >
+              <Download className="mr-2 h-4 sm:h-5 w-4 sm:w-5" />
+              <span className="text-sm sm:text-base">Gerar e Baixar vCard</span>
+            </Button>
 
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowPreview(!showPreview)}
-                className="w-full sm:w-auto flex items-center gap-2"
-              >
-                {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                {showPreview ? "Ocultar Prévia" : "Mostrar Prévia"}
-              </Button>
-            </div>
+            {/* Botões de preview e baixar QR só aparecem depois de gerar */}
+            {vCardGenerated && (
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mt-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowPreview(!showPreview)}
+                  className="w-full sm:w-auto flex items-center gap-2"
+                >
+                  {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPreview ? "Ocultar Prévia" : "Mostrar Prévia"}
+                </Button>
+
+                <Button
+                  onClick={() => {
+                    const canvas = document.querySelector("canvas")
+                    if (canvas) {
+                      const url = canvas.toDataURL("image/png")
+                      const link = document.createElement("a")
+                      link.href = url
+                      link.download = `${name.replace(/ /g, "_")}_QR.png`
+                      link.click()
+                    }
+                  }}
+                  className="w-full sm:w-auto py-2 sm:py-3 rounded-md bg-green-600 hover:bg-green-700 text-white flex items-center justify-center"
+                >
+                  <Download className="mr-2 w-4 h-4" /> Baixar QR Code
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Preview do vCard + QR Code */}
