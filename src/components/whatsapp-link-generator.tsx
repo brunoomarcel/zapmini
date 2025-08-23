@@ -529,7 +529,7 @@ export default function WhatsAppLinkGenerator() {
           Crie um <strong>vCard</strong> para que seus contatos salvem suas informações diretamente na agenda do celular com apenas um clique. É rápido, fácil e profissional.
         </p>
         <a
-          href="/como-usar#vcard"
+          href="/vcard"
           className="inline-block bg-purple-600 text-white text-lg font-medium px-8 py-4 rounded-lg shadow-md hover:bg-purple-700 transition-transform transform hover:scale-105"
         >
           Saiba Mais sobre vCard
