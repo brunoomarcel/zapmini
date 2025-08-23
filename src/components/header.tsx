@@ -163,12 +163,21 @@ export default function Header() {
               </Link>
 
               <Link 
-                href="#" 
-                className="block px-3 py-4 text-base font-medium text-gray-600 border-b"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Blog
+                  href="/como-usar" 
+                  className="block px-3 py-4 text-base font-medium text-gray-600 border-b"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Como usar
               </Link>
+
+              <Link 
+                  href="/vcard" 
+                  className="block px-3 py-4 text-base font-medium text-gray-600 border-b"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Conheça o VCard
+              </Link>
+
             </div>
           </div>
 
